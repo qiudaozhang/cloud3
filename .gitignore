@@ -2,3 +2,7 @@
 /.gradle/
 /admin/build/
 /cloud3-common/build/
+/**/.idea
+/**/target
+/**/*.jar
+/**/gradle-wrapper.properties
