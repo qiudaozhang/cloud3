@@ -1,0 +1,30 @@
+server:
+  port: 8870
+  servlet:
+    context-path: /gateway
+
+spring:
+  application:
+    name: gateway
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: 2d62f31f-05a2-4be8-97b1-0dcd80693ac4
+        group: dev
+        username: nacos
+        password: nacos
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: 2d62f31f-05a2-4be8-97b1-0dcd80693ac4
+        file-extension: yaml
+        group: dev
+        username: nacos
+        password: nacos
+#        共享配置
+        extension-configs:
+          - group: dev
+            data-id: dubbo.yaml
+            refresh: true
