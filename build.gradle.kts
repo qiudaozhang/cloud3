@@ -2,6 +2,7 @@ plugins {
     id("java")
 //    kotlin("jvm") version "1.8.0"
     id("org.jetbrains.kotlin.jvm") version "1.8.0"
+    id("io.spring.dependency-management") version "1.1.0"
 
 }
 
@@ -33,13 +34,25 @@ allprojects {
 }
 
 
+
+dependencyManagement{
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.0")
+    }
+}
+
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     testImplementation(kotlin("test"))
+//    import("org.springframework.cloud:spring-cloud-dependencies:2022.0.0")
+
+
 }
+
 
 tasks.test {
     useJUnitPlatform()
