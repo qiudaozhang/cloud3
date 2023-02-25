@@ -1,0 +1,4 @@
+# Project exclude paths
+/.gradle/
+/admin/build/
+/cloud3-common/build/
