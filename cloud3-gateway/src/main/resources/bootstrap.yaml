@@ -9,6 +9,18 @@ spring:
   profiles:
     active: dev
   cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+      routes:
+        - id: admin
+          uri: lb://admin
+          predicates:
+            - Path=/admin/**
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848

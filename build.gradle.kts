@@ -50,9 +50,9 @@ subprojects {
         dependencies {
             dependency("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:2022.0.0.0-RC1")
             dependency("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:2022.0.0.0-RC1")
-            dependency("org.springframework.cloud:spring-cloud-starter-gateway:${cloudVersion}")
+            dependency("org.springframework.cloud:spring-cloud-starter-gateway:4.0.1")
             dependency("org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.1")
-            dependency("org.springframework.cloud:spring-cloud-loadbalancer:${cloudVersion}")
+            dependency("org.springframework.cloud:spring-cloud-loadbalancer:4.0.1")
             dependency("org.apache.dubbo:dubbo:3.2.0-beta.5")
             dependency("com.alibaba.nacos:nacos-client:2.1.1")
 
