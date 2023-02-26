@@ -55,10 +55,6 @@ subprojects {
             dependency("org.springframework.cloud:spring-cloud-loadbalancer:4.0.1")
             dependency("org.apache.dubbo:dubbo:3.2.0-beta.5")
             dependency("com.alibaba.nacos:nacos-client:2.1.1")
-
-//        dependency("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:2022.0.0.0-RC1")
-
-
         }
     }
 
@@ -66,28 +62,17 @@ subprojects {
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
     }
-
-
-
 }
 
 // 所有的项目都生效
 allprojects {
-
-
     group = "top.daozhang"
     version = "0.0.1"
     apply {
         plugin("org.jetbrains.kotlin.plugin.allopen")
         plugin("org.jetbrains.kotlin.plugin.spring")
     }
-
-
 }
-
-
-val cloudVersion = "4.0.1"
-
 
 
 repositories {
@@ -103,11 +88,13 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-//    import("org.springframework.cloud:spring-cloud-dependencies:2022.0.0")
-
 
 }
 
+// 如果没有启动程序的，指定为FALSE
+tasks.bootJar  {
+     enabled=false
+}
 
 tasks.test {
     useJUnitPlatform()

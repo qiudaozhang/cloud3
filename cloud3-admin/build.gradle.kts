@@ -27,7 +27,14 @@ dependencies {
 //    api("io.springfox:springfox-swagger-ui:3.0.0")
 //    implementation("io.springfox:springfox-boot-starter:3.0.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
-
+    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")
+    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.apache.dubbo:dubbo")
+    implementation("org.springframework.boot:spring-boot-starter-log4j2")
+    implementation("com.alibaba.nacos:nacos-client")
+    implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
+    implementation("org.springframework.cloud:spring-cloud-loadbalancer")
     // 如果不需要引入module里面的具体依赖 需要使用子模块的具体依赖用下面这个
 //    implementation(project(":cloud3-common"))
     implementation("org.springframework.boot:spring-boot-starter-web:3.0.3")
