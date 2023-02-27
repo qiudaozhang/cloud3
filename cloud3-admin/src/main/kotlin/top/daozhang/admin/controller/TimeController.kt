@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 class TimeController {
 
     @GetMapping(value = ["/"])
-    @Operation(description = "临时测试", method = "临时测试")
+    @Operation(summary = "查询所有")
     fun getAll():List<TimeModel>{
         val t = TimeModel()
         val now = LocalDateTime.now()

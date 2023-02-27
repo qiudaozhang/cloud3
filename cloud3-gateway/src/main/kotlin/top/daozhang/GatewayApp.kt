@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 
 
-//@SpringBootApplication(exclude = [DataSourceAutoConfiguration::class])
 @EnableDiscoveryClient
 @EnableDubbo
 @SpringBootApplication
