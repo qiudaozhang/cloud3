@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     api(project(":cloud3-common"))
+    implementation("org.springframework.boot:spring-boot-starter-json")
     api("com.baomidou:mybatis-plus-core")
     api("com.baomidou:mybatis-plus-extension")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")

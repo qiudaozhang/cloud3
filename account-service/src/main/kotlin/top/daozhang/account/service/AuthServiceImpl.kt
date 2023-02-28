@@ -1,9 +1,8 @@
-package top.daozhang.account.service.impl;
+package top.daozhang.account.service;
 
-import top.daozhang.account.entity.Auth;
-import top.daozhang.account.service.AuthService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import org.apache.dubbo.config.annotation.DubboService
+import top.daozhang.account.entity.Auth
 import top.daozhang.account.mapper.AuthMapper
 
 /**

@@ -12,6 +12,16 @@ import java.util.List;
 
 public class StpAdminUtil {
 
+
+    public static Long uid(){
+        Object loginId = StpAdminUtil.getLoginId();
+
+        if(loginId == null){
+            return null;
+        }
+        return Long.parseLong(loginId.toString());
+    }
+
     private StpAdminUtil() {
     }
 

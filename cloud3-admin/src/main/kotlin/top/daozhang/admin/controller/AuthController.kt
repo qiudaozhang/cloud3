@@ -1,5 +1,6 @@
 package top.daozhang.admin.controller
 
+import cn.dev33.satoken.annotation.SaCheckLogin
 import cn.dev33.satoken.stp.SaLoginConfig
 import cn.dev33.satoken.stp.StpUtil
 import com.github.yitter.idgen.YitIdHelper
@@ -60,13 +61,21 @@ class AuthController {
 
         if (bCryptPasswordEncoder.matches(login.password, auth.password)) {
             // 登录成功
-//            val model = SaLoginConfig
-//                .setExtra("ns", RandomStringUtils.randomNumeric(6))
-//            StpAdminUtil.login(auth.id)
             StpAdminUtil.login(auth.id)
             return R.data(StpAdminUtil.getTokenValue())
         }
         return R.fail("账号或密码错误！")
+    }
+    @Operation(summary = "获取个人信息")
+    @PostMapping(value = ["info"])
+    @SaCheckLogin(type = StpAdminUtil.TYPE)
+    fun info(): R<Auth> {
+        val uid = StpAdminUtil.uid()
+        uid?.let {
+            val auth = authService.getById(uid)
+            return R.data(auth)
+        }
+        throw RuntimeException("获取失败")
     }
 
 }
