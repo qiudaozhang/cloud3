@@ -40,3 +40,7 @@ spring:
           - group: dev
             data-id: dubbo.yaml
             refresh: true
+
+dubbo:
+  application:
+    qos-port: 32001

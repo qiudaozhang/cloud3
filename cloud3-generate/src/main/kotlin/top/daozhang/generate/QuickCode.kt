@@ -13,6 +13,7 @@ object QuickCode {
 
     @JvmStatic
     fun main(args: Array<String>) {
+
         val outputPath = "e://gencode"
         val url = "jdbc:mysql://127.0.0.1:3354/cloud3"
         val username = "root"
@@ -21,6 +22,7 @@ object QuickCode {
         FastAutoGenerator.create(url, username, password)
             .globalConfig { builder: GlobalConfig.Builder ->
                 builder.author("邱道长") // 设置作者
+                    // 如果是用
                     .enableSwagger() // 开启 swagger 模式
                     .outputDir(outputPath) // 指定输出目录
                     .enableKotlin()// 开启kotlin风格

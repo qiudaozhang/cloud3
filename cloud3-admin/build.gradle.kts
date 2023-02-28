@@ -27,6 +27,8 @@ dependencies {
     api(project(":cloud3-api:account-api"))
     // 雪花id
     implementation("com.github.yitter:yitter-idgenerator:1.0.6")
+    implementation("org.apache.commons:commons-pool2:2.11.1")
+    implementation("cn.dev33:sa-token-dao-redis-jackson:1.34.0")
 
     // sa token
     implementation("cn.dev33:sa-token-spring-boot3-starter")

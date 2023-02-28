@@ -1,11 +1,12 @@
 package top.daozhang.admin.controller
 
-import cn.dev33.satoken.stp.StpLogic
+import cn.dev33.satoken.stp.SaLoginConfig
 import cn.dev33.satoken.stp.StpUtil
 import com.github.yitter.idgen.YitIdHelper
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.annotation.Resource
+import org.apache.commons.lang3.RandomStringUtils
 import org.apache.dubbo.config.annotation.DubboReference
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
@@ -19,7 +20,6 @@ import top.daozhang.account.service.AuthService
 import top.daozhang.admin.config.StpAdminUtil
 import top.daozhang.common.R
 import top.daozhang.util.NonNullBeanUtil
-import kotlin.math.log
 
 @RestController
 @RequestMapping(value = ["api/auth"])
@@ -60,6 +60,9 @@ class AuthController {
 
         if (bCryptPasswordEncoder.matches(login.password, auth.password)) {
             // 登录成功
+//            val model = SaLoginConfig
+//                .setExtra("ns", RandomStringUtils.randomNumeric(6))
+//            StpAdminUtil.login(auth.id)
             StpAdminUtil.login(auth.id)
             return R.data(StpAdminUtil.getTokenValue())
         }
