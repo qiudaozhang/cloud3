@@ -24,22 +24,25 @@ repositories {
 dependencies {
     // 需要使用子模块的具体依赖用下面这
     api(project(":cloud3-common"))
-//    implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
-//    api("io.springfox:springfox-swagger-ui:3.0.0")
-//    implementation("io.springfox:springfox-boot-starter:3.0.0")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+    api(project(":cloud3-api:account-api"))
+    // 雪花id
+    implementation("com.github.yitter:yitter-idgenerator:1.0.6")
+
+    // sa token
+    implementation("cn.dev33:sa-token-spring-boot3-starter")
+    implementation("cn.dev33:sa-token-jwt")
+    implementation("cn.dev33:sa-token-alone-redis")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    // 微服务通用依赖
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config")
-//    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.apache.dubbo:dubbo")
+    implementation("org.apache.dubbo:dubbo-spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-log4j2")
     implementation("com.alibaba.nacos:nacos-client")
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
     implementation("org.springframework.cloud:spring-cloud-loadbalancer")
-
 //    api 支持
     implementation("com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:4.0.0")
-
     // 如果不需要引入module里面的具体依赖 需要使用子模块的具体依赖用下面这个
 //    implementation(project(":cloud3-common"))
     implementation("org.springframework.boot:spring-boot-starter-web:3.0.3")

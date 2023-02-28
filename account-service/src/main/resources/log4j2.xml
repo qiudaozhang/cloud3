@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration status="ERROR" monitorInterval="120">
     <properties>
-        <property name="LOG_HOME">../logs/cloud/admin</property>
+        <property name="LOG_HOME">../logs/cloud3/account</property>
     </properties>
     <appenders>
         <console name="Console" target="SYSTEM_OUT">
@@ -85,7 +85,6 @@
     </appenders>
 
     <Loggers>
-        <!-- 设置项目日志        -->
         <logger name="org.springframework" level="INFO"/>
         <logger name="org.apache.http" level="ERROR"/>
         <!-- 临时关闭下 dubbo的报错日志-->

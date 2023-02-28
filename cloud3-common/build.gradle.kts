@@ -3,12 +3,10 @@
 //    kotlin("jvm") version "1.8.0"
 //}
 // 定义一个子模块
-group = "top.daozhang"
-version = "0.0.1"
+//group = "top.daozhang"
+//version = "0.0.1"
 
-//repositories {
-//    mavenCentral()
-//}
+
 
 dependencies {
     api("io.swagger.core.v3:swagger-annotations:2.2.8")

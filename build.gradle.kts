@@ -18,6 +18,10 @@ version = "0.0.1"
 
 
 subprojects {
+    val mybatisPlusVersion = "3.5.3.1"
+    val dubboVersion = "3.2.0-beta.5"
+    val saTokenVersion = "1.34.0"
+
     apply(plugin = "java")
     apply(plugin = "org.jetbrains.kotlin.jvm")
     configurations.all{
@@ -48,12 +52,25 @@ subprojects {
             mavenBom("com.alibaba.cloud:spring-cloud-alibaba-dependencies:2022.0.0.0-RC1")
         }
         dependencies {
+            dependency("cn.dev33:sa-token-spring-boot3-starter:${saTokenVersion}")
+            dependency("cn.dev33:sa-token-jwt:${saTokenVersion}")
+            dependency("cn.dev33:sa-token-alone-redis:${saTokenVersion}")
+
+
+            dependency("org.freemarker:freemarker:2.3.32")
+            dependency("com.baomidou:mybatis-plus-core:${mybatisPlusVersion}")
+            dependency("com.baomidou:mybatis-plus-generator:${mybatisPlusVersion}")
+            dependency("com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}")
+            dependency("com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}")
+            dependency("org.apache.dubbo:dubbo-spring-boot-starter:${dubboVersion}")
+            dependency("org.apache.dubbo:dubbo:${dubboVersion}")
+            dependency("com.mysql:mysql-connector-j:8.0.32")
             dependency("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:2022.0.0.0-RC1")
             dependency("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:2022.0.0.0-RC1")
             dependency("org.springframework.cloud:spring-cloud-starter-gateway:4.0.1")
             dependency("org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.1")
             dependency("org.springframework.cloud:spring-cloud-loadbalancer:4.0.1")
-            dependency("org.apache.dubbo:dubbo:3.2.0-beta.5")
+
             dependency("com.alibaba.nacos:nacos-client:2.1.1")
         }
     }

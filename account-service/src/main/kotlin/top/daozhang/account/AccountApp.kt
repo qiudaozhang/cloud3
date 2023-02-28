@@ -1,19 +1,18 @@
-package top.daozhang.admin
-import com.github.yitter.contract.IdGeneratorOptions
-import com.github.yitter.idgen.YitIdHelper
+package top.daozhang.account
+
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo
+import org.mybatis.spring.annotation.MapperScan
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 
-
 @SpringBootApplication(scanBasePackages = ["top.daozhang"])
 @EnableDiscoveryClient
 @EnableDubbo
-class AdminApp
+@MapperScan(basePackages = ["top.daozhang.account.mapper"])
+class AccountApp {
+}
 
 fun main(args: Array<String>) {
-    val options = IdGeneratorOptions(1)
-    YitIdHelper.setIdGenerator(options)
-    SpringApplication.run(AdminApp::class.java,*args)
+    SpringApplication.run(AccountApp::class.java, *args)
 }

@@ -5,14 +5,24 @@ import java.io.Serial
 import java.io.Serializable
 import java.time.LocalDateTime
 
-
-// 时间模型
+/**
+ * @author dao
+ * @since 2023-2-26
+ * 时间模型
+ */
 @Schema(title = "时间模型")
 open class TimeModel:Serializable{
-    @Schema(title = "创建时间")
+    @Schema(description = "创建时间")
     var created:LocalDateTime?=null
-    @Schema(title = "更新时间")
+    @Schema(description = "更新时间")
     var updated:LocalDateTime?=null
+
+
+    open fun initData(){
+        val now = LocalDateTime.now()
+        created = now
+        updated = now
+    }
 
     companion object {
         @Serial
