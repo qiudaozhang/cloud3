@@ -1,9 +1,9 @@
 package top.daozhang.admin.controller
 
+import com.github.xiaoymin.knife4j.annotations.ApiSupport
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import top.daozhang.common.TimeModel
@@ -12,6 +12,7 @@ import java.time.LocalDateTime
 @RestController
 @RequestMapping(value = ["/time"])
 @Tag(name = "时间")
+@ApiSupport(order = 3, author = "邱道长")
 class TimeController {
 
     @GetMapping(value = ["/"])

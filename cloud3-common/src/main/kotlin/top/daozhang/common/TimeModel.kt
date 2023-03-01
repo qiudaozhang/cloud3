@@ -12,9 +12,9 @@ import java.time.LocalDateTime
  */
 @Schema(title = "时间模型")
 open class TimeModel:Serializable{
-    @Schema(description = "创建时间")
+    @Schema(description = "创建时间，前端不需要提交", required = false)
     var created:LocalDateTime?=null
-    @Schema(description = "更新时间")
+    @Schema(description = "更新时间，前端不需要提交", required = false)
     var updated:LocalDateTime?=null
 
 

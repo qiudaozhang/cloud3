@@ -1,9 +1,7 @@
 package top.daozhang.account.entity
 
-import com.baomidou.mybatisplus.annotation.IdType
-import com.baomidou.mybatisplus.annotation.TableId
 import io.swagger.v3.oas.annotations.media.Schema
-import top.daozhang.common.DeleteModel
+import top.daozhang.common.IdModel
 import java.io.Serial
 
 
@@ -14,11 +12,8 @@ import java.io.Serial
  * 资源模型，资源的上下级关系不要太深，太深用关系型数据库维护性能不太好
  */
 @Schema(description = "资源")
-open class Resource:DeleteModel() {
+open class Resource:IdModel() {
 
-    @Schema(description = "主键")
-    @TableId(type = IdType.INPUT)
-    var id:Long ?=null
     @Schema(description = "名称")
     var name:String?=null
     @Schema(description = "资源类型")
@@ -29,10 +24,19 @@ open class Resource:DeleteModel() {
     var showName:String?=null
     @Schema(description = "父资源id")
     var pid:Long?=null
+    // 可以限制这个最大的深度
+    @Schema(description = "级别，深度")
+    var level:Int?=null
 
     companion object {
         @Serial
         private const val serialVersionUID: Long = -1208564661126489964L
 
     }
+
+    override fun toString(): String {
+        return "Resource(name=$name, type=$type, icon=$icon, showName=$showName, pid=$pid, level=$level)"
+    }
+
+
 }

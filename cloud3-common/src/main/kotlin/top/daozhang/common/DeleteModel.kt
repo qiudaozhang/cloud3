@@ -5,7 +5,7 @@ import java.io.Serial
 
 open class DeleteModel:TimeModel() {
 
-    @Schema(description = "逻辑删除状态 0 未删除 1 已删除")
+    @Schema(description = "逻辑删除状态 0 未删除 1 已删除", hidden = true)
     var deleted:Int?=null
 
 

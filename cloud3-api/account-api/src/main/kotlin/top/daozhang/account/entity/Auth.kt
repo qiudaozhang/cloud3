@@ -1,11 +1,9 @@
 package top.daozhang.account.entity
 
-import com.baomidou.mybatisplus.annotation.IdType
-import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import io.swagger.v3.oas.annotations.media.Schema
-import top.daozhang.common.DeleteModel
+import top.daozhang.common.IdModel
 import java.io.Serial
 import java.io.Serializable
 
@@ -20,12 +18,10 @@ import java.io.Serializable
 @Schema(description = "Auth对象" )
 @TableName(value = "auth")
 @JsonIgnoreProperties(value = ["password"])
-class Auth : DeleteModel(), Serializable {
+class Auth : IdModel(), Serializable {
 
 
-    @Schema(description = "主键")
-    @TableId(type = IdType.INPUT)
-    var id: Long? = null
+
 
     @Schema(description = "用户名")
     var username: String? = null

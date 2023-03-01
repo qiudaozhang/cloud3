@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.daozhang.account.mapper.ResourceMapper">
+
+
+    <select id="findSonByPid" resultType="top.daozhang.account.vo.ResourceVo">
+        select t1.* ,t2.distance
+        from `resource` t1 , resource_extra t2
+            where t1.id = t2.rid  and t2.pid = #{id }
+    </select>
+<!--    <select id="findSonByPid" resultType="top.daozhang.account.vo.ResourceVo">-->
+<!--        select t1.* ,t2.distance-->
+<!--        from `resource` t1 , resource_extra t2-->
+<!--        where t1.id = t2.rid  and t2.rid in (-->
+<!--            select rid from resource_extra where pid = #{id}-->
+<!--            )-->
+<!--    </select>-->
+</mapper>

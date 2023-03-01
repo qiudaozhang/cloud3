@@ -1,13 +1,12 @@
 package top.daozhang.admin.controller
 
 import cn.dev33.satoken.annotation.SaCheckLogin
-import cn.dev33.satoken.stp.SaLoginConfig
-import cn.dev33.satoken.stp.StpUtil
+import com.github.xiaoymin.knife4j.annotations.ApiSort
+import com.github.xiaoymin.knife4j.annotations.ApiSupport
 import com.github.yitter.idgen.YitIdHelper
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.annotation.Resource
-import org.apache.commons.lang3.RandomStringUtils
 import org.apache.dubbo.config.annotation.DubboReference
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
@@ -25,6 +24,7 @@ import top.daozhang.util.NonNullBeanUtil
 @RestController
 @RequestMapping(value = ["api/auth"])
 @Tag(name = "认证")
+@ApiSupport(order = 1)
 class AuthController {
 
     @DubboReference
@@ -38,13 +38,11 @@ class AuthController {
     fun register(@RequestBody register: Register): R<Any> {
 
         val auth = Auth()
-
         val has = authService.hasAccount(register.username, register.phone, register.email)
         if (has) {
             return R.fail("注册失败，账号已被使用！")
         }
         NonNullBeanUtil.copyProperties(register, auth)
-        auth.id = YitIdHelper.nextId()
         auth.initData()
         auth.password = bCryptPasswordEncoder.encode(auth.password)
         authService.save(auth)

@@ -2,6 +2,7 @@ package top.daozhang.admin.config
 
 import cn.hutool.core.util.RandomUtil
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import org.springdoc.core.customizers.GlobalOpenApiCustomizer;
@@ -41,13 +42,16 @@ class SwaggerConfig {
 
     @Bean
     fun customOpenAPI(): OpenAPI? {
+        val concat = Contact()
+        concat.name = "邱道长"
         return OpenAPI()
             .info(
                 Info()
                     .title("cloud3")
                     .version("1.0")
-                    .description("api docs")
-                    .termsOfService("xxxx.com")
+                    .contact(concat)
+                    .description("cloud3 admin api文档")
+                    .termsOfService("top.daozhang")
                     .license(
                         License().name("Apache 2.0")
                             .url("xxxx.com")
