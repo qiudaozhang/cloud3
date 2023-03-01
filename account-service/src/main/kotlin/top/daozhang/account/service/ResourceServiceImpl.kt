@@ -98,17 +98,7 @@ open class ResourceServiceImpl : ServiceImpl<ResourceMapper, Resource>(), Resour
      * @param children 子资源
      */
     private fun mounted(node: ResourceVo, children: List<ResourceVo>) {
-        if(node.mountFinish!!){
-            val nodeChildren =node.children
-            if(!nodeChildren.isNullOrEmpty()){
-                if(nodeChildren.all { it.mountFinish!! }){
-                    node.mountFinish = true
-                }
-                nodeChildren.forEach {
-                    mounted(it,children)
-                }
-            }
-        } else {
+        if(!node.mountFinish!!){
             if(node.distance == null){
                 node.distance = 0
             }
@@ -123,9 +113,39 @@ open class ResourceServiceImpl : ServiceImpl<ResourceMapper, Resource>(), Resour
                 if(subs.all { it.mountFinish!! }){
                     node.mountFinish = true
                 }
-            }
 
+            }
         }
+
+        //这块内容似乎不需要
+//        if(node.mountFinish!!){
+//            val nodeChildren =node.children
+//            if(!nodeChildren.isNullOrEmpty()){
+//                if(nodeChildren.all { it.mountFinish!! }){
+//                    node.mountFinish = true
+//                }
+//                nodeChildren.forEach {
+//                    mounted(it,children)
+//                }
+//            }
+//        } else {
+//            if(node.distance == null){
+//                node.distance = 0
+//            }
+//
+//            val subs = children.filter { it.pid == node.id && it.distance!!.toInt()  == (node.distance!!+1) }
+//            // 直接的儿子一层挂载完毕
+//            if(subs.isEmpty()){
+//                node.mountFinish = true
+//            } else {
+//                node.children = subs
+//                subs.forEach { mounted(it,children) }
+//                if(subs.all { it.mountFinish!! }){
+//                    node.mountFinish = true
+//                }
+//            }
+//
+//        }
 
     }
 
