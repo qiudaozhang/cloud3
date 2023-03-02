@@ -27,6 +27,8 @@ class ResourceController {
     @DubboReference
     lateinit var resourceService: ResourceService
 
+
+
     @Operation(summary = "创建", description = "创建")
     @PostMapping
     fun create(@RequestBody resource: Resource): R<Any> {

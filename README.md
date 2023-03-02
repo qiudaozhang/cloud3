@@ -26,18 +26,17 @@ docker run -itd --name cloud3-mysql8 -p 3354:3306 -e MYSQL_ROOT_PASSWORD=root -e
 http://localhost:8870/admin/doc.html
 
 
-## Resource设计与处理
+ 
+## rsa 秘钥对生成
 
 
-| 父id | 子id | 距离 |
-| ---- | ---- | ---- |
-| 1    | 2    | 1    |
-| 2    | 3    | 1    |
-| 1    | 3    | 1    |
-
-
-针对删除资源1，由于所有和1有关联的数据，都能找到，此外还需要清理所有的子资源，所以这里也需要一个递归
-
+```java
+val pair = SecureUtil.generateKeyPair("RSA")
+println(Base64.encode(pair.private.encoded))
+println(Base64.encode(pair.public.encoded))
+```
+MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMFNdIpAQfPG5NxZDBLrIakZH0gyrsIfZRDq9bPeLJpTx4AWXICmqRvxLknN9HNNrncIhe7k5Q+ZRNKrIYJAUqaDyWmUKlUrd+yFjI/NLWXJt9lsvSrbTO0JN2StsFIRgg9WW4mqnI3Kw/ww4otO+wxCgZIhq8khF+eVsQlQDKFlAgMBAAECgYAfheGU8CCxQASveGgTJ7wgBuRGkllUd+kz5pU2BWvRqQr2NO9V3ZfjYiPxzj/ok8j5SW8KA9LlBdIm5th6lMHFdE/kfZUF6ZPaIQnxgvj779g59qgYh72gLgTw16KvQj/sJLS3zDXjG3QaDXPWiCICKiOHXb5h9yyD9S+uBWlOOwJBAOTfKEvTwVmNm1M6ms/OCY7uMM6OR6F/nigSwYCSeONAS/HauI3F3hOHmM4JCE3kbI/Dx+ntVY0jGj1FHVgzUOsCQQDYNv5uBCqghHaQ8hIw0vj+3WaU6W5HMzgPgG3wOhRrJ1JLXhvJ3DlUr/ZcnMpr5RHIqni13Rg4EnodeCs59sLvAkEAt6sCGn/vzR8fxBXmwNb2wrYRguGZSFgyorQSh0yEKNKjX46HxnZAtml9zfJfsKqcGG8kEm0814uQ9hRt7ScZSwJAEWISgJvbJX6g3bRom/5KQItiVPSThivrBOwJarfwrlDCAAc36rnG7jUbdISyjYwkKuLxw4VcDh4GLVpc91MMhwJBAOG2tF8dTL9IktueHg350XoSlyxGmVqztT3VPgfJ//w5n3Q538EU90R66OL99sCnTPytnC180yOAYpKruuMRhqo=
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDBTXSKQEHzxuTcWQwS6yGpGR9IMq7CH2UQ6vWz3iyaU8eAFlyApqkb8S5JzfRzTa53CIXu5OUPmUTSqyGCQFKmg8lplCpVK3fshYyPzS1lybfZbL0q20ztCTdkrbBSEYIPVluJqpyNysP8MOKLTvsMQoGSIavJIRfnlbEJUAyhZQIDAQAB
 
 
 ## 参考资料
