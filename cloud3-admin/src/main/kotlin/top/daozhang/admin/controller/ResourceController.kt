@@ -6,6 +6,7 @@ import com.github.yitter.idgen.YitIdHelper
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.apache.dubbo.config.annotation.DubboReference
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -38,6 +39,14 @@ class ResourceController {
     fun get(@PathVariable("id") id: Long):R<ResourceVo?> {
         val one = resourceService.findOne(id)
         return R.data(one)
+    }
+
+
+    @Operation(summary = "删除单个", description = "删除单个资源数据，包含其子数据")
+    @DeleteMapping(value = ["{id}"])
+    fun delete(@PathVariable("id") id: Long):R<Any> {
+        resourceService.deleteOne(id)
+        return R.suc()
     }
 
 }

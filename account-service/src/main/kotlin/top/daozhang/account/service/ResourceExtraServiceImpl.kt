@@ -17,12 +17,16 @@ import top.daozhang.account.mapper.ResourceExtraMapper
 @DubboService
 open class ResourceExtraServiceImpl : ServiceImpl<ResourceExtraMapper, ResourceExtra>(), ResourceExtraService {
     override fun findWithRid(rid: Long): List<ResourceExtra> {
-
-//        return lambdaQuery().eq(ResourceExtra::rid,rid).list()
-//        val q = LambdaQueryWrapper<ResourceExtra>()
-//        q.eq(ResourceExtra::rid, rid)
-//        return baseMapper.selectList(q)
         return baseMapper.findByRid(rid)
+    }
+
+    override fun findByPid(pid: Long): List<ResourceExtra> {
+        return  baseMapper.findByPid(pid)
+    }
+
+    override fun removeInPidRid(idList: List<Long>): Boolean {
+        baseMapper.removeInPidRid(idList)
+        return true
     }
 
 

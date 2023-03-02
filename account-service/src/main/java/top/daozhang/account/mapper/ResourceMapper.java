@@ -9,4 +9,8 @@ import java.util.List;
 public interface ResourceMapper extends BaseMapper<Resource> {
 
     List<ResourceVo> findSonByPid(Long id );
+
+
+    int removeByIds(List<Long> list);
+
 }

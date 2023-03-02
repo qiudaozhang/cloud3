@@ -13,4 +13,9 @@ public interface ResourceExtraMapper extends BaseMapper<ResourceExtra> {
     List<ResourceExtra> findByRid(@Param("rid") Long rid);
 
 
+    List<ResourceExtra> findByPid(@Param("pid") Long pid);
+
+    int deleteByPid(@Param("pid") Long pid);
+
+    int removeInPidRid(List<Long> idList);
 }

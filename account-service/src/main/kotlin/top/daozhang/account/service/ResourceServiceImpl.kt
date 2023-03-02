@@ -23,7 +23,6 @@ import top.daozhang.util.NonNullBeanUtil
 open class ResourceServiceImpl : ServiceImpl<ResourceMapper, Resource>(), ResourceService {
 
     @jakarta.annotation.Resource
-
     lateinit var resourceExtraService: ResourceExtraService
 
     override fun createOne(resource: Resource): Boolean {
@@ -76,7 +75,14 @@ open class ResourceServiceImpl : ServiceImpl<ResourceMapper, Resource>(), Resour
     }
 
     override fun deleteOne(id: Long): Boolean {
-        TODO("Not yet implemented")
+        // 除了移除自身外，还要移除其挂载的所有数据（假设是这样的实现模式）
+
+        val children = resourceExtraService.findByPid(id)
+        val childrenIdList = children.map { it.rid!! }
+        val idList = childrenIdList.plus(id)
+        resourceExtraService.removeInPidRid(idList)
+        baseMapper.removeByIds(idList)
+        return true
     }
 
     override fun findOne(id: Long): ResourceVo? {

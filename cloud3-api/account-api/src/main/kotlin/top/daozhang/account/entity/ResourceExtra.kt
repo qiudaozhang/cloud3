@@ -9,8 +9,8 @@ import java.io.Serial
 @TableName(value = "resource_extra")
 class ResourceExtra :PureId(){
 
-    @Schema(description = "根资源id")
-    var rootId:Long?=null
+//    @Schema(description = "根资源id")
+//    var rootId:Long?=null
     @Schema(description = "父资源id")
     var pid:Long?=null
     @Schema(description = "资源id")
