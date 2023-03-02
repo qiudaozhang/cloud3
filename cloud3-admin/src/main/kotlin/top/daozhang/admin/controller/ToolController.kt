@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 import top.daozhang.common.R
 import cn.hutool.core.codec.Base64;
 import jakarta.annotation.Resource
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import top.daozhang.config.RsaConfig
 
 @RestController
@@ -26,6 +27,9 @@ class ToolController {
 
     @Resource
     lateinit var rsaConfig: RsaConfig
+
+    @Resource
+    lateinit var bCryptPasswordEncoder: BCryptPasswordEncoder
 
 
     @PostMapping(value = ["randomPwd"])
@@ -57,6 +61,14 @@ class ToolController {
         val rsa = SecureUtil.rsa(rsaConfig.priKey, rsaConfig.pubKey)
         return R.data(rsa.encryptBase64(value, KeyType.PublicKey))
     }
+
+
+    @PostMapping(value = ["bcrypt/crypt"])
+    @Operation(summary = "bcrypt加密", description = "根据算法计算加密的值")
+    fun bcrypt(value: String): R<String> {
+        return R.data(bCryptPasswordEncoder.encode(value))
+    }
+
 
     @PostMapping(value = ["rsa/decrpyt"])
     @Operation(summary = "rsa解密", description = "根据算法计算加密的值")
