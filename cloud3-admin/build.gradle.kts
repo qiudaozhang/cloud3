@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-seata:2022.0.0.0-RC1")
+    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-seata")
 
     // 需要使用子模块的具体依赖用下面这
     api(project(":cloud3-common"))
