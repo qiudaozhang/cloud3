@@ -10,6 +10,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages = ["top.daozhang"])
 @EnableDiscoveryClient
 @EnableDubbo
+/*
+--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.nio=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.math=ALL-UNNAMED
+ */
+
 class AdminApp
 
 fun main(args: Array<String>) {

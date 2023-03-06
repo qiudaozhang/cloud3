@@ -29,7 +29,11 @@ spring:
           - group: dev
             data-id: dubbo.yaml
             refresh: true
+          - group: dev
+            data-id: seata.yaml
+            refresh: true
 
 dubbo:
   application:
     qos-port: 32002
+
