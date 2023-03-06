@@ -477,6 +477,20 @@ spring:
 
 
 
+### seata ui
+
+
+
+http://localhost:7091/#/TransactionInfo
+
+
+
+![dRtnx.png](https://i.328888.xyz/2023/03/06/dRtnx.png)
+
+
+
+可以通过打端点观察下这些信息
+
 
 
 ## 参考资料
