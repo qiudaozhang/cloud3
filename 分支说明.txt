@@ -1,0 +1,6 @@
+本分支是为是为spring boot 2.x 系列准备的
+选用的ali cloud版本为2021.0.4.0
+spring cloud 版本 2021.0.4
+seata版本 1.5.2
+
+这个只作为一个基础的demo，不再往后开发

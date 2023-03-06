@@ -34,7 +34,7 @@ dependencies {
     implementation("cn.dev33:sa-token-dao-redis-jackson:1.34.0")
 
     // sa token
-    implementation("cn.dev33:sa-token-spring-boot3-starter")
+    implementation("cn.dev33:sa-token-spring-boot-starter")
     implementation("cn.dev33:sa-token-jwt")
     implementation("cn.dev33:sa-token-alone-redis")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
@@ -47,10 +47,11 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
     implementation("org.springframework.cloud:spring-cloud-loadbalancer")
 //    api 支持
-    implementation("com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:4.0.0")
+    implementation("com.github.xiaoymin:knife4j-spring-boot-starter:3.0.3")
+//    implementation("com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:4.0.0")
     // 如果不需要引入module里面的具体依赖 需要使用子模块的具体依赖用下面这个
 //    implementation(project(":cloud3-common"))
-    implementation("org.springframework.boot:spring-boot-starter-web:3.0.3")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
 

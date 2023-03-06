@@ -22,7 +22,7 @@ import top.daozhang.util.NonNullBeanUtil
 @Transactional(rollbackFor = [Exception::class])
 open class ResourceServiceImpl : ServiceImpl<ResourceMapper, Resource>(), ResourceService {
 
-    @jakarta.annotation.Resource
+   @javax.annotation.Resource
     lateinit var resourceExtraService: ResourceExtraService
 
     override fun createOne(resource: Resource): Boolean {

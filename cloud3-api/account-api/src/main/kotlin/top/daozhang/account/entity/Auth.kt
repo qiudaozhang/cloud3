@@ -2,7 +2,8 @@ package top.daozhang.account.entity
 
 import com.baomidou.mybatisplus.annotation.TableName
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.annotations.ApiModel
+import io.swagger.annotations.ApiModelProperty
 import top.daozhang.common.IdModel
 import java.io.Serial
 import java.io.Serializable
@@ -15,24 +16,22 @@ import java.io.Serializable
  * @author 邱道长
  * @since 2023-02-27
  */
-@Schema(description = "Auth对象" )
+@ApiModel(description = "Auth对象")
 @TableName(value = "auth")
 @JsonIgnoreProperties(value = ["password"])
 class Auth : IdModel(), Serializable {
 
 
-
-
-    @Schema(description = "用户名")
+    @ApiModelProperty(value = "用户名")
     var username: String? = null
 
-    @Schema(description = "密码")
+    @ApiModelProperty(value = "密码")
     var password: String? = null
 
-    @Schema(description = "手机号")
+    @ApiModelProperty(value = "手机号")
     var phone: String? = null
 
-    @Schema(description = "邮箱")
+    @ApiModelProperty(value = "邮箱")
     var email: String? = null
 
     companion object {

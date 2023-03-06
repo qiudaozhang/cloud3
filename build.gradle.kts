@@ -19,9 +19,9 @@ version = "0.0.1"
 
 subprojects {
     val mybatisPlusVersion = "3.5.3.1"
-    val dubboVersion = "3.2.0-beta.5"
+    val dubboVersion = "2.7.22"
     val saTokenVersion = "1.34.0"
-    val alibabaVersion = "2022.0.0.0-RC1"
+    val alibabaVersion = "2021.0.4.0"
 
     apply(plugin = "java")
     apply(plugin = "org.jetbrains.kotlin.jvm")
@@ -49,11 +49,12 @@ subprojects {
 
     dependencyManagement{
         imports {
-            mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.0")
-            mavenBom("com.alibaba.cloud:spring-cloud-alibaba-dependencies:2022.0.0.0-RC1")
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.4")
+            mavenBom("com.alibaba.cloud:spring-cloud-alibaba-dependencies:2021.0.4.0")
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.7.9")
         }
         dependencies {
-            dependency("cn.dev33:sa-token-spring-boot3-starter:${saTokenVersion}")
+            dependency("cn.dev33:sa-token-spring-boot-starter:${saTokenVersion}")
             dependency("cn.dev33:sa-token-jwt:${saTokenVersion}")
             dependency("cn.dev33:sa-token-alone-redis:${saTokenVersion}")
             dependency("com.alibaba.cloud:spring-cloud-starter-alibaba-seata:${alibabaVersion}")
@@ -67,9 +68,9 @@ subprojects {
             dependency("com.mysql:mysql-connector-j:8.0.32")
             dependency("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${alibabaVersion}")
             dependency("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${alibabaVersion}")
-            dependency("org.springframework.cloud:spring-cloud-starter-gateway:4.0.1")
-            dependency("org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.1")
-            dependency("org.springframework.cloud:spring-cloud-loadbalancer:4.0.1")
+            dependency("org.springframework.cloud:spring-cloud-starter-gateway:3.1.4")
+            dependency("org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.4")
+            dependency("org.springframework.cloud:spring-cloud-loadbalancer:3.1.4")
 
             dependency("com.alibaba.nacos:nacos-client:2.1.1")
         }

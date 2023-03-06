@@ -4,9 +4,10 @@ import cn.dev33.satoken.annotation.SaCheckLogin
 import com.github.xiaoymin.knife4j.annotations.ApiSort
 import com.github.xiaoymin.knife4j.annotations.ApiSupport
 import com.github.yitter.idgen.YitIdHelper
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import jakarta.annotation.Resource
 import org.apache.dubbo.config.annotation.DubboReference
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,10 +21,11 @@ import top.daozhang.account.service.AuthService
 import top.daozhang.admin.config.StpAdminUtil
 import top.daozhang.common.R
 import top.daozhang.util.NonNullBeanUtil
+import javax.annotation.Resource
 
 @RestController
 @RequestMapping(value = ["api/auth"])
-@Tag(name = "认证")
+@Api(tags =["认证"])
 @ApiSupport(order = 1)
 class AuthController {
 
@@ -33,7 +35,7 @@ class AuthController {
     @Resource
     lateinit var bCryptPasswordEncoder: BCryptPasswordEncoder
 
-    @Operation(summary = "注册")
+    @ApiOperation(value = "注册")
     @PostMapping(value = ["register"])
     fun register(@RequestBody register: Register): R<Any> {
 
@@ -49,7 +51,7 @@ class AuthController {
         return R.suc()
     }
 
-    @Operation(summary = "登录")
+      @ApiOperation(value =  "登录")
     @PostMapping(value = ["login"])
     fun login(@RequestBody login: Login): R<Any> {
 
@@ -64,7 +66,7 @@ class AuthController {
         }
         return R.fail("账号或密码错误！")
     }
-    @Operation(summary = "获取个人信息")
+      @ApiOperation(value =  "获取个人信息")
     @PostMapping(value = ["info"])
     @SaCheckLogin(type = StpAdminUtil.TYPE)
     fun info(): R<Auth> {

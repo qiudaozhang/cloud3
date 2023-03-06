@@ -9,7 +9,8 @@
 
 
 dependencies {
-    api("io.swagger.core.v3:swagger-annotations:2.2.8")
+//    api("io.swagger.core.v3:swagger-annotations:2.2.8")
+    api("com.github.xiaoymin:knife4j-spring-boot-starter:3.0.3")
     api("cn.hutool:hutool-core:5.8.12")
     api("com.baomidou:mybatis-plus-core")
     api("com.github.yitter:yitter-idgenerator:1.0.6")

@@ -3,6 +3,7 @@ package top.daozhang.admin.controller
 import com.github.xiaoymin.knife4j.annotations.ApiSort
 import com.github.xiaoymin.knife4j.annotations.ApiSupport
 import com.github.yitter.idgen.YitIdHelper
+import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.apache.dubbo.config.annotation.DubboReference
@@ -29,14 +30,14 @@ class ResourceController {
 
 
 
-    @Operation(summary = "创建", description = "创建")
+    @ApiOperation(value =  "创建", notes = "创建")
     @PostMapping
     fun create(@RequestBody resource: Resource): R<Any> {
         resourceService.createOne(resource)
         return R.suc()
     }
 
-    @Operation(summary = "查询单个", description = "查询单个资源数据，包含其子数据")
+    @ApiOperation(value =  "查询单个", notes = "查询单个资源数据，包含其子数据")
     @GetMapping(value = ["{id}"])
     fun get(@PathVariable("id") id: Long):R<ResourceVo?> {
         val one = resourceService.findOne(id)
@@ -44,7 +45,7 @@ class ResourceController {
     }
 
 
-    @Operation(summary = "删除单个", description = "删除单个资源数据，包含其子数据")
+    @ApiOperation(value =  "删除单个", notes = "删除单个资源数据，包含其子数据")
     @DeleteMapping(value = ["{id}"])
     fun delete(@PathVariable("id") id: Long):R<Any> {
         resourceService.deleteOne(id)
