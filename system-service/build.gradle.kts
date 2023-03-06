@@ -1,3 +1,8 @@
+plugins {
+    id("java")
+}
+
+
 
 repositories {
     mavenCentral()
@@ -5,7 +10,7 @@ repositories {
 
 dependencies {
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-seata:2022.0.0.0-RC1")
-    api(project(":cloud3-api:account-api"))
+    api(project(":cloud3-api:system-api"))
     implementation("com.mysql:mysql-connector-j")
     implementation("com.baomidou:mybatis-plus-boot-starter")
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")

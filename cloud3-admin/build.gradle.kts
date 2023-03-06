@@ -22,9 +22,12 @@ repositories {
 }
 
 dependencies {
+    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-seata:2022.0.0.0-RC1")
+
     // 需要使用子模块的具体依赖用下面这
     api(project(":cloud3-common"))
     api(project(":cloud3-api:account-api"))
+    api(project(":cloud3-api:system-api"))
     // 雪花id
     implementation("com.github.yitter:yitter-idgenerator:1.0.6")
     implementation("org.apache.commons:commons-pool2:2.11.1")
