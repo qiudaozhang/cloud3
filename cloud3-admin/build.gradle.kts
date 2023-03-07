@@ -14,8 +14,6 @@ plugins {
 //    kotlin("plugin.jpa") version "1.8.0"
 }
 
-group = "top.daozhang"
-version = "0.0.1"
 
 repositories {
     mavenCentral()

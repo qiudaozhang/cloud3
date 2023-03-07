@@ -1,9 +1,8 @@
-plugins {
-    id("java")
-}
+//plugins {
+//    id("java")
+//}
 
-group = "top.daozhang"
-version = "0.0.1"
+
 
 repositories {
     mavenCentral()

@@ -1,13 +1,12 @@
-plugins {
-    id("java")
-}
+//plugins {
+//    id("java")
+//}
 
-group = "top.daozhang"
-version = "0.0.1"
 
 repositories {
     mavenCentral()
 }
+
 
 dependencies {
     api(project(":cloud3-common"))
@@ -20,4 +19,7 @@ dependencies {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
+}
+tasks.bootJar  {
+    enabled=false
 }
