@@ -13,3 +13,4 @@ include("account-service")
 include("system-service")
 include("cloud3-api:system-api")
 findProject(":cloud3-api:system-api")?.name = "system-api"
+include("modules")

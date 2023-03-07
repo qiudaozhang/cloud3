@@ -27,6 +27,9 @@ spring:
 #        共享配置
         extension-configs:
           - group: dev
+            data-id: common.yaml
+            refresh: true
+          - group: dev
             data-id: dubbo.yaml
             refresh: true
           - group: dev
