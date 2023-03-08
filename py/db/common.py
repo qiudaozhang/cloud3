@@ -3,6 +3,7 @@ import db
 from config import DB_NAME
 import codecs
 import os
+from util import str_util
 
 
 def show_table():
@@ -35,13 +36,10 @@ def mysql_type_2_java_type(t):
     return "Object"
 
 
-def generate_model(package_name, table_name, output_path='e://generate_code'):
-    data = find_table_info(table_name)
-    class_name = table_name.capitalize()
+def create_model(output_path, data, package_name, class_name):
     field_lines = []
     index = 0
     for d in data:
-
         # print(d)
         col_name = d['COLUMN_NAME']
         mysql_type = d['DATA_TYPE']
@@ -53,12 +51,12 @@ def generate_model(package_name, table_name, output_path='e://generate_code'):
             annotation = f'\t@Schema(description = "{comment}");\n'
 
         line = f"\tprivate {java_type} {col_name};\n\n"
-        print(annotation)
-        print(line)
+        # print(annotation)
+        # print(line)
         field_lines.append(annotation)
         field_lines.append(line)
         index += 1
-    f = open(f'./model.java')
+    f = open(f'./template/model.java')
     lines = f.read()
     f.close()
     fields = "".join(field_lines)
@@ -72,11 +70,49 @@ def generate_model(package_name, table_name, output_path='e://generate_code'):
         os.makedirs(output_path)
 
     code_relative_path = "/".join(package_name.split("."))
-    source_code_path = f"{output_path}/src/main/java/{code_relative_path}"
+    source_code_path = f"{output_path}/src/main/java/{code_relative_path}/model"
     if not os.path.exists(source_code_path):
         os.makedirs(source_code_path)
     out_file = codecs.open(f'{source_code_path}/{file_name}', 'w', 'utf-8')
     out_file.writelines(template)
-    # print(template)
 
-generate_model("top.daozhang.entity", "auth")
+
+def create_common_file(package_name, class_name, output_path, suffix):
+    end_package_name = suffix
+    if suffix.endswith("Impl"):
+        end_package_name = end_package_name.replace("Impl", "").lower() + "/impl"
+
+    if suffix.startswith("rest"):
+        end_package_name = end_package_name.replace("Rest", "").lower()
+
+    f = open(f'./template/{suffix.lower()}.java','r',encoding='utf-8')
+    pure_file_name = f"{class_name}{suffix}"
+    template = f.read()
+    f.close()
+    template = template.replace("{{class_name}}", class_name)
+    template = template.replace("{{package_name}}", f"{package_name}")
+    if suffix.startswith("Rest"):
+        template = template.replace("{{low_class_name}}", str_util.first_low(class_name))
+
+    file_name = f"{pure_file_name}.java"
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+    code_relative_path = "/".join(package_name.split("."))
+    source_code_path = f"{output_path}/src/main/java/{code_relative_path}/{end_package_name}"
+    if not os.path.exists(source_code_path):
+        os.makedirs(source_code_path)
+    out_file = codecs.open(f'{source_code_path}/{file_name}', 'w', 'utf-8')
+    out_file.writelines(template)
+
+
+def generate_model(package_name, table_name, output_path='e://generate_code'):
+    data = find_table_info(table_name)
+    class_name = table_name.capitalize()
+    create_model(output_path, data, package_name, class_name)
+    create_common_file(package_name, class_name, output_path, 'Mapper')
+    create_common_file(package_name, class_name, output_path, 'Service')
+    create_common_file(package_name, class_name, output_path, 'ServiceImpl')
+    create_common_file(package_name, class_name, output_path, 'RestController')
+
+
+generate_model("top.daozhang", "auth")

@@ -32,3 +32,29 @@ def find(sql):
             return result
     finally:
         con.close()
+
+
+def custom_conn(host, port, username, password, db_name):
+    config = {
+        'host': host,
+        'port': port,  # MySQL默认端口
+        'user': username,  # mysql默认用户名
+        'password': password,
+        'db': db_name,  # 数据库
+        'charset': 'utf8mb4',
+        'cursorclass': pymysql.cursors.DictCursor,
+    }
+
+    # 创建连接
+    con = pymysql.connect(**config)
+    return con
+
+
+def find_v2(con, sql):
+    try:
+        with con.cursor() as cursor:
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            return result
+    finally:
+        con.close()
