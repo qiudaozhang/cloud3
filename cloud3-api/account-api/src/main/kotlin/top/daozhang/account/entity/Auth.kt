@@ -22,7 +22,6 @@ class Auth : IdModel(), Serializable {
 
 
 
-
     @Schema(description = "用户名")
     var username: String? = null
 

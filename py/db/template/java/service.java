@@ -1,6 +1,7 @@
 package {{package_name}}.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import {{package_name}}.model.{{class_name}};
 
 /**
 * @author {{author}}

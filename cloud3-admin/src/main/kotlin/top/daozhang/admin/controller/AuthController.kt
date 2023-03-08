@@ -1,14 +1,13 @@
 package top.daozhang.admin.controller
 
 import cn.dev33.satoken.annotation.SaCheckLogin
-import com.github.xiaoymin.knife4j.annotations.ApiSort
 import com.github.xiaoymin.knife4j.annotations.ApiSupport
-import com.github.yitter.idgen.YitIdHelper
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.annotation.Resource
 import org.apache.dubbo.config.annotation.DubboReference
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
