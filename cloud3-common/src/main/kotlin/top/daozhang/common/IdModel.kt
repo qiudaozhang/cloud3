@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableId
 import com.github.yitter.idgen.YitIdHelper
 import io.swagger.v3.oas.annotations.media.Schema
+import jakarta.annotation.Resource
 import java.io.Serial
 
 open class IdModel:DeleteModel() {
@@ -11,6 +12,7 @@ open class IdModel:DeleteModel() {
     @TableId(type = IdType.INPUT)
     var id: Long? = null
 
+//    @Resource
 
     override fun initData() {
         super.initData()

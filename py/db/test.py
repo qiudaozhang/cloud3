@@ -17,5 +17,5 @@ config = {
 # g = Generate(con,'auth','E://generate_code','top.daozhang')
 
 
-g = Generate(config,[],'E://generate_code','top.daozhang','邱道长',jdk_version='17',request_body=False,rest=False)
+g = Generate(config,[],'E://generate_code','top.daozhang','邱道长',jdk_version='17',request_body=False,rest=False,null_validate=True)
 g.run()

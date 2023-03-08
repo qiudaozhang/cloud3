@@ -4,7 +4,7 @@ import platform
 
 import pymysql
 import pymysql.cursors
-
+import json
 import db
 from util import str_util, time_util
 
@@ -18,13 +18,23 @@ def mysql_type_2_java_type(t):
         return "String"
     if t == "datetime":
         return "LocalDateTime"
+    if t == 'tinyint':
+        return "Boolean"
+    if t == 'double':
+        return "Double"
+    if t == 'decimal':
+        return "BigDecimal"
+    # json的实现方案可能各自选择不一样，还是使用先Object
+    # if t == 'json':
+    #     return "JSONObject"
+
     return "Object"
 
 
 class Generate:
 
     def __init__(self, config, table_names, output, base_package, auth='', rest=True, request_body=True,
-                 doc_type='swagger2', jdk_version="8"):
+                 doc_type='swagger2', jdk_version="8",null_validate=False):
         """
 
         :param config:          数据配置对象
@@ -36,6 +46,7 @@ class Generate:
         :param request_body:    入参是否使用RequestBody
         :param doc_type:        文档类型，[swagger2,openapiV3]
         :param jdk_version:     jdk版本，默认8，[8,17]
+        :param null_validate:   是否进行空的校验，如果选择是，会增加对应的注解
         """
         self.config = config
         self.table_names = table_names
@@ -51,6 +62,7 @@ class Generate:
         self.db_name = con.db.decode('utf-8')
         con.close()
         self.doc_type = doc_type
+        self.null_validate = null_validate
         #  提取的表信息数据
 
     def create_con(self):
@@ -60,13 +72,16 @@ class Generate:
 
     def run(self):
         tables = []
-        if self.table_names == []:
+        if not self.table_names:
             tbs = self.find_all_table_info()
             for t in tbs:
                 tables.append(t['TABLE_NAME'])
         for table_name in tables:
             table_info = self.find_table_info(table_name)
             columns = self.find_column_info(table_name)
+            # print(columns)
+            print(json.dumps(columns))
+            # print(table_info)
             table_comment = table_info[0]['TABLE_COMMENT']
             class_name = str_util.underline_2_words(table_name)
             self.create_model(columns, class_name, table_comment)
@@ -144,11 +159,23 @@ class Generate:
             mysql_type = d['DATA_TYPE']
             java_type = mysql_type_2_java_type(mysql_type)
             comment = d['COLUMN_COMMENT']
+            if d['COLUMN_KEY'] == 'PRI':
+                if d['EXTRA'] == 'auto_increment':
+                    field_lines.append(f'@TableId(value = "id", type = IdType.AUTO)\n')
+                else:
+                    field_lines.append(f'@TableId(value = "id", type = IdType.Input)\n')
+
+            #     @NotNull(message = "{{column_name}}不能为空")
+            if self.null_validate:
+                if d['IS_NULLABLE'] == 'NO':
+                    # 非空要求
+                    field_lines.append(f'\t@NotNull(message = "{comment}不能为空")\n')
+
             if index == 0:
                 if self.doc_type == 'swagger2':
-                    annotation = f'@ApiModelProperty(value = "{comment}");\n'
+                    annotation = f'\t@ApiModelProperty(value = "{comment}");\n'
                 else:
-                    annotation = f'@Schema(description = "{comment}");\n'
+                    annotation = f'\t@Schema(description = "{comment}");\n'
             else:
                 if self.doc_type == 'swagger2':
                     annotation = f'\t@ApiModelProperty(value = "{comment}");\n'
