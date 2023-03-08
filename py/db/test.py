@@ -12,6 +12,8 @@ config = {
     'charset': 'utf8mb4',
     'cursorclass': pymysql.cursors.DictCursor,
 }
+
+# 推荐 jdk17 rest True，如果不习惯用kotlin则禁用即可
 g = Generate(config, [], 'E://generate_code', 'top.daozhang', '邱道长', jdk_version='8', request_body=False, rest=True,
              null_validate=True, doc_type='v3', kotlin=True)
 g.run()
