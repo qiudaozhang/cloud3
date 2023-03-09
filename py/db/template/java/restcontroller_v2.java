@@ -5,11 +5,18 @@ import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import javax.annotation.Resource;
+import {{package_name}}.model.{{class_name}};
+import {{package_name}}.service.{{class_name}}Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
-import javax.annotation.Resource;
+import java.io.Serializable;
 
 /**
 * @author {{author}}
@@ -22,7 +29,7 @@ import javax.annotation.Resource;
 public class {{class_name}}Controller {
 
 
-    @Reource
+    @Resource
     private {{class_name}}Service {{low_class_name}}Service;
 
 
