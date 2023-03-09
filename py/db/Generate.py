@@ -179,15 +179,16 @@ class Generate:
         self.create_common_file(class_name, table_comment, 'mapper', 'mapper')
 
     def create_model(self, data, class_name, table_comment):
-        not_null = "import javax.validation.constraints.NotNull"
-        not_null17 = "import jakarta.validation.constraints.NotNull"
-        not_empty = "import javax.validation.constraints.NotEmpty"
-        not_empty17 = "import jakarta.validation.constraints.NotEmpty"
-        if self.kotlin:
-            not_null = f"{not_null};"
-            not_empty = f"{not_empty};"
-            not_null17 = f"{not_empty17};"
-            not_empty17 = f"{not_empty17};"
+        # not_null = "import javax.validation.constraints.NotNull"
+        # not_empty = "import javax.validation.constraints.NotEmpty"
+        #
+        # not_null17 = "import jakarta.validation.constraints.NotNull"
+        # not_empty17 = "import jakarta.validation.constraints.NotEmpty"
+        # if not self.kotlin:
+        #     not_null = f"{not_null};"
+        #     not_empty = f"{not_empty};"
+        #     not_null17 = f"{not_null17};"
+        #     not_empty17 = f"{not_empty17};"
 
         field_lines = []
         index = 0
@@ -200,7 +201,7 @@ class Generate:
                 if d['EXTRA'] == 'auto_increment':
                     field_lines.append(f'@TableId(value = "id", type = IdType.AUTO)\n')
                 else:
-                    field_lines.append(f'@TableId(value = "id", type = IdType.Input)\n')
+                    field_lines.append(f'@TableId(value = "id", type = IdType.INPUT)\n')
 
             if self.null_validate:
                 if d['IS_NULLABLE'] == 'NO':
@@ -219,14 +220,16 @@ class Generate:
                     annotation = f'\t@ApiModelProperty(value = "{comment}")\n'
                 else:
                     annotation = f'\t@Schema(description = "{comment}")\n'
+            if self.kotlin:
+                line = f"\tvar {col_name}:{java_type}?=null\n\n"
+            else:
+                line = f"\tprivate {java_type} {col_name};\n\n"
 
-            line = f"\tvar {col_name}:{java_type}?=null\n\n"
             field_lines.append(annotation)
             field_lines.append(line)
             index += 1
         if self.kotlin:
             file_name = f"{class_name}.kt"
-
             if self.doc_type == 'v2':
                 f = open(f'./template/kotlin/model_v2.kt')
             else:
@@ -241,21 +244,33 @@ class Generate:
 
         lines = f.read()
         f.close()
+
+        # if self.jdk_version == '8':
+        #     lines = lines.replace(not_null17,
+        #                           "")
+        #     lines = lines.replace(not_empty17,
+        #                           "")
+        # if self.jdk_version == '17':
+        #     lines = lines.replace(not_null,
+        #                           "")
+        #     lines = lines.replace(not_empty,
+        #                           "")
         fields = "".join(field_lines)
         template = lines.replace("{{fields}}", fields)
 
-        if self.jdk_version == '17':
-            template = template.replace(not_null,
-                                        not_null17)
-            template = template.replace(not_empty,
-                                        not_empty17)
+        imports = []
+        if not self.kotlin:
+            if self.jdk_version == '8':
+                if "@NotNull" in template:
+                    imports.append("import javax.validation.constraints.NotNull;")
+                if "@NotEmpty" in template:
+                    imports.append("import javax.validation.constraints.NotEmpty;")
+                if "private LocalDateTime" in template:
+                    imports.append("import java.time.LocalDateTime;")
+                if "private BigDecimal" in template:
+                    imports.append("import java.math.BigDecimal;")
 
-        if not ("@NotNull" in template):
-            template = template.replace(not_null, "")
-            template = template.replace(not_null17, "")
-        if not ("@NotEmpty" in template):
-            template = template.replace(not_empty, "")
-            template = template.replace(not_empty17, "")
+        template = template.replace("{{import_package}}","\n".join(imports))
         template = self.replace_g1(template, class_name, table_comment)
         self.write(template, file_name, 'model')
 
