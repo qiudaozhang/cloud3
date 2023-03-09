@@ -16,6 +16,8 @@ def mysql_type_2_java_type(t, is_kotlin=False):
         return "Long"
     if t == "varchar":
         return "String"
+    if t == "text":
+        return "String"
     if t == "datetime":
         return "LocalDateTime"
     if t == 'tinyint':
@@ -156,7 +158,8 @@ class Generate:
             self.write(template, file_name, 'controller')
 
     def create_common_file(self, class_name, table_comment, suffix, sub_path):
-        cap_module = suffix.capitalize()
+        # cap_module = suffix.capitalize()
+        cap_module = suffix[0:1].upper()+suffix[1:]
         low_module = suffix.lower()
         file_name = f"{class_name}{cap_module}.java"
         read_name = f'template/java/{low_module}.java'
@@ -179,17 +182,6 @@ class Generate:
         self.create_common_file(class_name, table_comment, 'mapper', 'mapper')
 
     def create_model(self, data, class_name, table_comment):
-        # not_null = "import javax.validation.constraints.NotNull"
-        # not_empty = "import javax.validation.constraints.NotEmpty"
-        #
-        # not_null17 = "import jakarta.validation.constraints.NotNull"
-        # not_empty17 = "import jakarta.validation.constraints.NotEmpty"
-        # if not self.kotlin:
-        #     not_null = f"{not_null};"
-        #     not_empty = f"{not_empty};"
-        #     not_null17 = f"{not_null17};"
-        #     not_empty17 = f"{not_empty17};"
-
         field_lines = []
         index = 0
         for d in data:
@@ -244,33 +236,27 @@ class Generate:
 
         lines = f.read()
         f.close()
-
-        # if self.jdk_version == '8':
-        #     lines = lines.replace(not_null17,
-        #                           "")
-        #     lines = lines.replace(not_empty17,
-        #                           "")
-        # if self.jdk_version == '17':
-        #     lines = lines.replace(not_null,
-        #                           "")
-        #     lines = lines.replace(not_empty,
-        #                           "")
         fields = "".join(field_lines)
         template = lines.replace("{{fields}}", fields)
+        handle_import = [["private LocalDateTime", "import java.time.LocalDateTime"],
+                         ["private BigDecimal", "import java.math.BigDecimal"]
+                         ]
+        if self.jdk_version == '8':
+            handle_import.append(["@NotNull", "import javax.validation.constraints.NotNull"])
+            handle_import.append(["@NotEmpty", "import javax.validation.constraints.NotEmpty"])
+        if self.jdk_version == '17':
+            handle_import.append(["@NotNull", "import jakarta.validation.constraints.NotNull"])
+            handle_import.append(["@NotEmpty", "import jakarta.validation.constraints.NotEmpty"])
 
+        for h in handle_import:
+            if not self.kotlin:
+                h[1] = f"{h[1]};"
         imports = []
-        if not self.kotlin:
-            if self.jdk_version == '8':
-                if "@NotNull" in template:
-                    imports.append("import javax.validation.constraints.NotNull;")
-                if "@NotEmpty" in template:
-                    imports.append("import javax.validation.constraints.NotEmpty;")
-                if "private LocalDateTime" in template:
-                    imports.append("import java.time.LocalDateTime;")
-                if "private BigDecimal" in template:
-                    imports.append("import java.math.BigDecimal;")
+        for h in handle_import:
+            if h[0] in template:
+                imports.append(h[1])
 
-        template = template.replace("{{import_package}}","\n".join(imports))
+        template = template.replace("{{import_package}}", "\n".join(imports))
         template = self.replace_g1(template, class_name, table_comment)
         self.write(template, file_name, 'model')
 

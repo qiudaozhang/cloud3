@@ -6,8 +6,7 @@ import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableId
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.NotEmpty
+{{import_package}}
 
 @ApiModel(title="{{table_comment}}")
 class {{class_name}}:Serializable {
