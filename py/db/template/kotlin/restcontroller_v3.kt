@@ -16,7 +16,7 @@ import jakarta.annotation.Resource
 * {{table_comment}}控制器
 */
 @RestController
-@Tag(name = "{{class_name}}控制器")
+@Tag(name = "{{table_name}}控制器")
 @RequestMapping(value =["api/{{class_name}}"])
 public class {{class_name}}Controller {
 

@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 * {{table_comment}}控制器
 */
 @RestController
-@Tags(name = "{{class_name}}控制器")
+@Tags(name = "{{table_name}}控制器")
 @RequestMapping("api/{{class_name}}")
 public class {{class_name}}Controller {
 

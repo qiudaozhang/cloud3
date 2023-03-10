@@ -24,7 +24,7 @@ import java.io.Serializable;
 * {{table_comment}}控制器
 */
 @RestController
-@Api(tags = "{{class_name}}控制器")
+@Api(tags = "{{table_name}}控制器")
 @RequestMapping("api/{{class_name}}")
 public class {{class_name}}Controller {
 

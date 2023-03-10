@@ -90,6 +90,7 @@ class Generate:
             class_name = str_util.underline_2_words(table_name)
             self.create_model(columns, class_name, table_comment)
             self.create_mapper(class_name, table_comment)
+            self.create_mapper_xml(class_name, table_comment,data=columns)
             self.create_service(class_name, table_comment)
             self.create_service_impl(class_name, table_comment)
             self.create_rest_controller(class_name, table_comment)
@@ -180,42 +181,99 @@ class Generate:
 
     def create_mapper(self, class_name, table_comment):
         self.create_common_file(class_name, table_comment, 'mapper', 'mapper')
+    def create_mapper_xml(self, class_name, table_comment,data):
+        results = []
+        index = 0
+        data_len = len(data)
+        for d in data:
+            col_name = d['COLUMN_NAME']
+            java_property = str_util.sql_name_2_property(col_name)
+            if index == 0:
+                result = f'<result property="{java_property}" column="{col_name}"/>\n'
+            else:
+                if data_len == index+1:
+                    result = f'\t\t<result property="{java_property}" column="{col_name}"/>'
+                else:
+                    result = f'\t\t<result property="{java_property}" column="{col_name}"/>\n'
+            results.append(result)
+            index += 1
+
+
+        file_name = f"{class_name}Mapper.xml"
+        read_name = f'template/java/mapper.xml'
+        f = open(read_name, 'r', encoding='utf-8')
+        template = f.read()
+        f.close()
+        template = self.replace_g1(template, class_name, table_comment)
+        template = template.replace("{{results}}","".join(results))
+        output_path = self.output
+        if not os.path.exists(output_path):
+            os.makedirs(output_path)
+        source_code_path = f"{output_path}/src/main/resource/mapper"
+        if not os.path.exists(source_code_path):
+            os.makedirs(source_code_path)
+        out_file = codecs.open(f'{source_code_path}/{file_name}', 'w', 'utf-8')
+        out_file.writelines(template)
 
     def create_model(self, data, class_name, table_comment):
         field_lines = []
         index = 0
         for d in data:
             col_name = d['COLUMN_NAME']
+            java_property = str_util.sql_name_2_property(col_name)
             mysql_type = d['DATA_TYPE']
             java_type = mysql_type_2_java_type(mysql_type)
             comment = d['COLUMN_COMMENT']
-            if d['COLUMN_KEY'] == 'PRI':
-                if d['EXTRA'] == 'auto_increment':
-                    field_lines.append(f'@TableId(value = "id", type = IdType.AUTO)\n')
-                else:
-                    field_lines.append(f'@TableId(value = "id", type = IdType.INPUT)\n')
-
-            if self.null_validate:
-                if d['IS_NULLABLE'] == 'NO':
-                    # 非空要求
-                    field_lines.append(f'\t@NotNull(message = "{comment}不能为空")\n')
-                    if java_type == 'String':
-                        field_lines.append(f'\t@NotEmpty(message = "{comment}不能为空")\n')
-
             if index == 0:
+                pre_t = ""
+                if d['COLUMN_KEY'] == 'PRI':
+                    if d['EXTRA'] == 'auto_increment':
+                        field_lines.append(f'{pre_t}@TableId(value = "id", type = IdType.AUTO)\n')
+                        pre_t = "\t"
+                    else:
+                        field_lines.append(f'{pre_t}@TableId(value = "id", type = IdType.INPUT)\n')
+                        pre_t = "\t"
+
+                if self.null_validate:
+                    if d['IS_NULLABLE'] == 'NO':
+                        # 非空要求
+                        field_lines.append(f'{pre_t}@NotNull(message = "{comment}不能为空")\n')
+                        pre_t = "\t"
+                        if java_type == 'String':
+                            field_lines.append(f'{pre_t}@NotEmpty(message = "{comment}不能为空")\n')
+                            pre_t = "\t"
+
                 if self.doc_type == 'v2':
-                    annotation = f'\t@ApiModelProperty(value = "{comment}")\n'
+                    annotation = f'{pre_t}@ApiModelProperty(value = "{comment}")\n'
+                    pre_t = "\t"
+
                 else:
-                    annotation = f'\t@Schema(description = "{comment}")\n'
+                    annotation = f'{pre_t}@Schema(description = "{comment}")\n'
+                    pre_t = "\t"
+
             else:
+                if d['COLUMN_KEY'] == 'PRI':
+                    if d['EXTRA'] == 'auto_increment':
+                        field_lines.append(f'\t@TableId(value = "id", type = IdType.AUTO)\n')
+                    else:
+                        field_lines.append(f'\t@TableId(value = "id", type = IdType.INPUT)\n')
+
+                if self.null_validate:
+                    if d['IS_NULLABLE'] == 'NO':
+                        # 非空要求
+                        field_lines.append(f'\t@NotNull(message = "{comment}不能为空")\n')
+                        if java_type == 'String':
+                            field_lines.append(f'\t@NotEmpty(message = "{comment}不能为空")\n')
                 if self.doc_type == 'v2':
                     annotation = f'\t@ApiModelProperty(value = "{comment}")\n'
                 else:
                     annotation = f'\t@Schema(description = "{comment}")\n'
             if self.kotlin:
-                line = f"\tvar {col_name}:{java_type}?=null\n\n"
+                line = f"\tvar {java_property}:{java_type}?=null\n\n"
             else:
-                line = f"\tprivate {java_type} {col_name};\n\n"
+                line = f"\tprivate {java_type} {java_property};\n\n"
+
+            # result = f'<result column="{col_name}" property="{java_property}"/>\n'
 
             field_lines.append(annotation)
             field_lines.append(line)
@@ -238,7 +296,9 @@ class Generate:
         f.close()
         fields = "".join(field_lines)
         template = lines.replace("{{fields}}", fields)
-        handle_import = [["private LocalDateTime", "import java.time.LocalDateTime"],
+        handle_import = [
+                        ["private LocalDate", "import java.time.LocalDate"],
+                        ["private LocalDateTime", "import java.time.LocalDateTime"],
                          ["private BigDecimal", "import java.math.BigDecimal"]
                          ]
         if self.jdk_version == '8':
