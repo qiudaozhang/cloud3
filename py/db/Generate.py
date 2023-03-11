@@ -38,7 +38,7 @@ def mysql_type_2_java_type(t, is_kotlin=False):
 class Generate:
 
     def __init__(self, config, table_names, output, base_package, auth='', rest=True, request_body=True,
-                 doc_type='v2', jdk_version="8", null_validate=False, kotlin=False):
+                 doc_type='v2', jdk_version="8", null_validate=False, kotlin=False, standard_http=True):
         """
 
         :param config:          数据配置对象
@@ -52,6 +52,7 @@ class Generate:
         :param jdk_version:     jdk版本，默认8，[8,17]
         :param null_validate:   是否进行空的校验，如果选择是，会增加对应的注解
         :param kotlin:          是否使用kotlin风格
+        :param standard_http:   是否遵循标准的http规范设计控制器
         """
         self.config = config
         self.table_names = table_names
@@ -90,7 +91,7 @@ class Generate:
             class_name = str_util.underline_2_words(table_name)
             self.create_model(columns, class_name, table_comment)
             self.create_mapper(class_name, table_comment)
-            self.create_mapper_xml(class_name, table_comment,data=columns)
+            self.create_mapper_xml(class_name, table_comment, data=columns)
             self.create_service(class_name, table_comment)
             self.create_service_impl(class_name, table_comment)
             self.create_rest_controller(class_name, table_comment)
@@ -160,7 +161,7 @@ class Generate:
 
     def create_common_file(self, class_name, table_comment, suffix, sub_path):
         # cap_module = suffix.capitalize()
-        cap_module = suffix[0:1].upper()+suffix[1:]
+        cap_module = suffix[0:1].upper() + suffix[1:]
         low_module = suffix.lower()
         file_name = f"{class_name}{cap_module}.java"
         read_name = f'template/java/{low_module}.java'
@@ -181,7 +182,8 @@ class Generate:
 
     def create_mapper(self, class_name, table_comment):
         self.create_common_file(class_name, table_comment, 'mapper', 'mapper')
-    def create_mapper_xml(self, class_name, table_comment,data):
+
+    def create_mapper_xml(self, class_name, table_comment, data):
         results = []
         index = 0
         data_len = len(data)
@@ -191,13 +193,12 @@ class Generate:
             if index == 0:
                 result = f'<result property="{java_property}" column="{col_name}"/>\n'
             else:
-                if data_len == index+1:
+                if data_len == index + 1:
                     result = f'\t\t<result property="{java_property}" column="{col_name}"/>'
                 else:
                     result = f'\t\t<result property="{java_property}" column="{col_name}"/>\n'
             results.append(result)
             index += 1
-
 
         file_name = f"{class_name}Mapper.xml"
         read_name = f'template/java/mapper.xml'
@@ -205,7 +206,7 @@ class Generate:
         template = f.read()
         f.close()
         template = self.replace_g1(template, class_name, table_comment)
-        template = template.replace("{{results}}","".join(results))
+        template = template.replace("{{results}}", "".join(results))
         output_path = self.output
         if not os.path.exists(output_path):
             os.makedirs(output_path)
@@ -297,10 +298,10 @@ class Generate:
         fields = "".join(field_lines)
         template = lines.replace("{{fields}}", fields)
         handle_import = [
-                        ["private LocalDate", "import java.time.LocalDate"],
-                        ["private LocalDateTime", "import java.time.LocalDateTime"],
-                         ["private BigDecimal", "import java.math.BigDecimal"]
-                         ]
+            ["private LocalDate", "import java.time.LocalDate"],
+            ["private LocalDateTime", "import java.time.LocalDateTime"],
+            ["private BigDecimal", "import java.math.BigDecimal"]
+        ]
         if self.jdk_version == '8':
             handle_import.append(["@NotNull", "import javax.validation.constraints.NotNull"])
             handle_import.append(["@NotEmpty", "import javax.validation.constraints.NotEmpty"])
