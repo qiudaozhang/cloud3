@@ -10,8 +10,12 @@ from util import str_util, time_util
 
 
 def mysql_type_2_java_type(t, is_kotlin=False):
-    if t == "int":
-        return "Integer"
+    if not is_kotlin:
+        if t == "int":
+            return "Integer"
+    else:
+        return "Int"
+
     if t == "bigint":
         return "Long"
     if t == "varchar":
@@ -83,6 +87,8 @@ class Generate:
             tbs = self.find_all_table_info()
             for t in tbs:
                 tables.append(t['TABLE_NAME'])
+        else:
+            tables = self.table_names
         for table_name in tables:
             table_info = self.find_table_info(table_name)
             columns = self.find_column_info(table_name)
@@ -223,7 +229,7 @@ class Generate:
             col_name = d['COLUMN_NAME']
             java_property = str_util.sql_name_2_property(col_name)
             mysql_type = d['DATA_TYPE']
-            java_type = mysql_type_2_java_type(mysql_type)
+            java_type = mysql_type_2_java_type(mysql_type,self.kotlin)
             comment = d['COLUMN_COMMENT']
             if index == 0:
                 pre_t = ""
@@ -302,6 +308,12 @@ class Generate:
             ["private LocalDateTime", "import java.time.LocalDateTime"],
             ["private BigDecimal", "import java.math.BigDecimal"]
         ]
+        if self.kotlin:
+            handle_import = [
+                [":LocalDate", "import java.time.LocalDate"],
+                [":LocalDateTime", "import java.time.LocalDateTime"],
+                [":BigDecimal", "import java.math.BigDecimal"]
+            ]
         if self.jdk_version == '8':
             handle_import.append(["@NotNull", "import javax.validation.constraints.NotNull"])
             handle_import.append(["@NotEmpty", "import javax.validation.constraints.NotEmpty"])
