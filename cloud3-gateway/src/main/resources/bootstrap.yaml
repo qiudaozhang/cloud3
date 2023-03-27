@@ -44,3 +44,18 @@ spring:
 dubbo:
   application:
     qos-port: 32001
+
+
+#  配置聚合文档
+
+knife4j:
+  # 聚合swagger文档,如果使用dubbo，用这种模式
+  gateway:
+    enable: true
+    strategy: manual
+    routes:
+      - name: admin服务
+        url: /admin/v3/api-docs?group=default
+        service-name: admin
+        order: 1
+#        context-path: admin

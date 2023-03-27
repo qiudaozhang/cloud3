@@ -33,10 +33,10 @@ class SwaggerConfig {
                 }
 
             }
-            if (openApi.paths != null) {
-                openApi.addExtension("x-test123", "333")
-                openApi.paths.addExtension("x-abb", RandomUtil.randomInt(1, 100))
-            }
+//            if (openApi.paths != null) {
+//                openApi.addExtension("x-test123", "333")
+//                openApi.paths.addExtension("x-abb", RandomUtil.randomInt(1, 100))
+//            }
         }
     }
 
@@ -51,11 +51,11 @@ class SwaggerConfig {
                     .version("1.0")
                     .contact(concat)
                     .description("cloud3 admin api文档")
-                    .termsOfService("top.daozhang")
-                    .license(
-                        License().name("Apache 2.0")
-                            .url("xxxx.com")
-                    )
+//                    .termsOfService("top.daozhang")
+//                    .license(
+//                        License().name("Apache 2.0")
+//                            .url("xxxx.com")
+//                    )
             )
     }
 

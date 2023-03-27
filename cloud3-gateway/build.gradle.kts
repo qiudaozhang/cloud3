@@ -1,13 +1,27 @@
 //plugins {
 //    id("java")
 //}
+plugins {
+    id("org.jetbrains.kotlin.plugin.lombok") version "1.8.10"
+//  id "org.jetbrains.kotlin.plugin.allopen" version "1.8.10"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.8.10"
 
-
+}
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://repo.spring.io/release")
+    }
+    maven {
+        url = uri("https://repository.jboss.org/maven2")
+    }
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-allopen:1.8.10")
+
+    api("com.github.xiaoymin:knife4j-gateway-spring-boot-starter:4.1.0")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config")
     implementation("org.springframework.cloud:spring-cloud-starter-gateway")
@@ -17,10 +31,8 @@ dependencies {
     implementation("com.alibaba.nacos:nacos-client")
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
     implementation("org.springframework.cloud:spring-cloud-loadbalancer")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
 }
 
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
-}
+//tasks.getByName<Test>("test") {
+//    useJUnitPlatform()
+//}
